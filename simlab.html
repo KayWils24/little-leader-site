@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Little Leader – Simulation Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Little Leader</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="simlab.html">Sim Lab</a></li>
+          <li><a href="progress.html">My Progress</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+          <li><a href="parents.html">Parents &amp; Teachers</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <h3>Simulation Lab</h3>
+      <p>
+        Experiment with real‑world scenarios in a safe, interactive space. The
+        Sim Lab uses games and simulations to teach budgeting, investing and
+        decision‑making skills. Teachers and parents can play along and guide
+        learners through the challenges.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sim-card">
+        <img src="images/lab.png" alt="Real Life Lab illustration" style="max-width:100%; border-radius: var(--border-radius); margin-bottom: 16px;" />
+        <h4>Real Life Lab</h4>
+        <p>
+          In the Real Life Lab, students earn income, pay bills, choose
+          careers and manage a credit score. Teachers act as bankers,
+          offering loans or investment opportunities, and learners decide how to
+          spend their weeks. This image shows one possible layout for a mobile
+          version of the life simulation game.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Daily inspiration section shows a random positive affirmation each time the page loads -->
+  <section class="section">
+    <div class="container">
+      <div class="sim-section" id="affirmation-section">
+        <h4>Daily Inspiration</h4>
+        <p id="affirmation-text">
+          <!-- affirmation text inserted by script -->
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sim-section" id="budget-game">
+        <h4>Budgeting Game</h4>
+        <p>
+          Enter your monthly budget and decide how to allocate funds among
+          necessities, fun and savings. Try to save at least 20%!
+        </p>
+        <div class="sim-card">
+          <label for="budget-input">Starting Budget ($):</label>
+          <input type="number" id="budget-input" min="0" value="500" />
+          <label for="housing-input">Housing ($):</label>
+          <input type="number" id="housing-input" min="0" value="150" />
+          <label for="food-input">Food ($):</label>
+          <input type="number" id="food-input" min="0" value="100" />
+          <label for="entertainment-input">Entertainment ($):</label>
+          <input type="number" id="entertainment-input" min="0" value="50" />
+          <label for="savings-input">Savings ($):</label>
+          <input type="number" id="savings-input" min="0" value="50" />
+          <button onclick="calculateBudget()">Calculate Remaining</button>
+          <div id="budget-output"></div>
+        </div>
+      </div>
+      <div class="sim-section" id="stock-game">
+        <h4>Stock Trading Simulation</h4>
+        <p>
+          Use $1,000 of virtual money to purchase shares in companies. Prices
+          change randomly each day. See how your portfolio grows!
+        </p>
+        <div class="sim-card">
+          <div id="stock-balance">Balance: $1000</div>
+          <div class="table-wrapper">
+            <table id="stock-table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Price ($)</th>
+                  <th>Shares Owned</th>
+                  <th>Buy Shares</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Rows added by script -->
+              </tbody>
+            </table>
+          </div>
+          <button onclick="nextDay()">Next Day</button>
+          <div id="portfolio-value" style="margin-top:12px;"></div>
+        </div>
+      </div>
+
+      <!-- Real Estate Investing Simulation -->
+      <div class="sim-section" id="real-estate-game">
+        <h4>Real Estate Investing</h4>
+        <p>
+          Build your own virtual property portfolio! Use $5,000 of starting
+          capital to purchase homes and apartments. Property values change
+          each week – diversify your holdings to reduce risk and watch your
+          real estate empire grow.
+        </p>
+        <div class="sim-card">
+          <div id="property-balance">Balance: $5000</div>
+          <div class="table-wrapper">
+            <table id="property-table">
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Price ($)</th>
+                  <th>Units Owned</th>
+                  <th>Buy Units</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- rows inserted by script -->
+              </tbody>
+            </table>
+          </div>
+          <button onclick="nextWeek()">Next Week</button>
+          <div id="property-portfolio-value" style="margin-top:12px;"></div>
+        </div>
+      </div>
+
+      <!-- College and Career Planner -->
+      <div class="sim-section" id="college-plan">
+        <h4>College &amp; Career Planner</h4>
+        <p>
+          Compare different college options, scholarships and career salaries.
+          Learn how tuition, scholarships and student loans influence your
+          finances after graduation.
+        </p>
+        <div class="sim-card">
+          <label for="college-select">Select a college option:</label>
+          <select id="college-select">
+            <option value="community">Community College – $10,000/year</option>
+            <option value="state">State University – $20,000/year</option>
+            <option value="private">Private University – $40,000/year</option>
+          </select>
+          <label for="years-input">Years of study:</label>
+          <input type="number" id="years-input" min="1" max="6" value="4" />
+          <label for="scholarship-input">Scholarship amount ($):</label>
+          <input type="number" id="scholarship-input" min="0" value="0" />
+          <label for="career-select">Choose a career path:</label>
+          <select id="career-select">
+            <option value="teacher">Teacher – $45,000/year</option>
+            <option value="engineer">Engineer – $70,000/year</option>
+            <option value="artist">Artist – $30,000/year</option>
+            <option value="entrepreneur">Entrepreneur – $60,000/year</option>
+            <option value="scientist">Scientist – $65,000/year</option>
+          </select>
+          <button onclick="calculateCollegePlan()">Calculate Plan</button>
+          <div id="college-result" style="margin-top:12px;"></div>
+        </div>
+      </div>
+
+      <!-- Video Lessons and Quiz -->
+      <div class="sim-section" id="video-lessons">
+        <h4>Video Lessons &amp; Quiz</h4>
+        <p>
+          Watch a short video to learn about budgeting basics, then answer a
+          simple quiz question to test your understanding.
+        </p>
+        <div class="sim-card">
+          <div class="video-wrapper" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+            <iframe src="https://www.youtube-nocookie.com/embed/M-5gn4kE_J8" title="Budgeting Basics" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <form id="quiz-form" onsubmit="return false;" style="margin-top:16px;">
+            <p id="quiz-question">What percentage of your income should you aim to save each month?</p>
+            <div id="quiz-options">
+              <label><input type="radio" name="quiz" value="0" /> 5%</label><br />
+              <label><input type="radio" name="quiz" value="1" /> 20%</label><br />
+              <label><input type="radio" name="quiz" value="2" /> 50%</label>
+            </div>
+            <button type="button" onclick="submitQuiz()">Submit Answer</button>
+            <div id="quiz-feedback" style="margin-top:12px;"></div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>
+      All simulations are for educational purposes only and use virtual money.
+      No real investments or loans are executed.
+    </p>
+  </footer>
+</body>
+</html>
