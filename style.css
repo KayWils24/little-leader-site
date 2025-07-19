@@ -160,6 +160,58 @@ nav a:hover {
   transform: translateY(-4px);
 }
 
+/* Curriculum page styles */
+.grade-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+}
+
+.grade-section {
+  background-color: #f9f9f9;
+  border-radius: var(--border-radius);
+  padding: 20px;
+  flex: 1 1 280px;
+  max-width: 320px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform var(--transition-fast);
+}
+
+.grade-section:hover {
+  transform: translateY(-4px);
+}
+
+.grade-section h4 {
+  margin-top: 0;
+  color: var(--color-primary);
+}
+
+.subject-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.subject-card {
+  flex: 1 1 calc(50% - 8px);
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+  text-align: center;
+  padding: 8px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.subject-card:hover {
+  background-color: var(--color-highlight);
+  transform: translateY(-2px);
+  color: var(--color-primary);
+}
+
 .feature h4 {
   margin-top: 0;
   color: var(--color-primary);

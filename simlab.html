@@ -15,6 +15,8 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="simlab.html">Sim Lab</a></li>
+          <li><a href="curriculum.html">Curriculum</a></li>
+          <li><a href="kindergarten.html">Kindergarten</a></li>
           <li><a href="progress.html">My Progress</a></li>
           <li><a href="roadmap.html">Roadmap</a></li>
           <li><a href="parents.html">Parents &amp; Teachers</a></li>
@@ -201,65 +203,7 @@
         </div>
       </div>
 
-      <!-- Needs vs Wants Sorting Game -->
-      <div class="sim-section" id="needs-wants-game">
-        <h4>Needs vs. Wants Sorting</h4>
-        <p>Decide whether each item is a need or a want.</p>
-        <div class="sim-card" id="nw-game-container"></div>
-        <button onclick="submitNeedsWants()">Check Answers</button>
-        <div id="nw-feedback" style="margin-top: 12px;"></div>
-      </div>
-
-      <!-- Pushes & Pulls Motion Lab -->
-      <div class="sim-section" id="force-lab">
-        <h4>Pushes &amp; Pulls Lab</h4>
-        <p>Experiment with pushes and pulls to see how force affects motion.</p>
-        <div class="sim-card">
-          <label for="force-strength">Force Strength (1–10):</label>
-          <input type="number" id="force-strength" min="1" max="10" value="5" />
-          <div style="margin-top:8px;">
-            <button onclick="applyForce('push')">Push</button>
-            <button onclick="applyForce('pull')">Pull</button>
-          </div>
-          <div id="force-output" style="margin-top:12px;"></div>
-        </div>
-      </div>
-
-      <!-- Storybook Adventure -->
-      <div class="sim-section" id="storybook-game">
-        <h4>Storybook Adventure</h4>
-        <p>Read the short story and answer the questions to test your understanding.</p>
-        <div class="sim-card">
-          <p id="story-text"></p>
-          <div id="story-questions"></div>
-          <button onclick="submitStoryAnswers()">Submit Answers</button>
-          <div id="story-feedback" style="margin-top: 12px;"></div>
-        </div>
-      </div>
-
-      <!-- Penny Bank Game -->
-      <div class="sim-section" id="penny-game">
-        <h4>My Penny Bank</h4>
-        <p>Use pennies and nickels to reach the target amount.</p>
-        <div class="sim-card">
-          <p>Target amount: <span id="penny-target"></span>¢</p>
-          <div>
-            <label>Pennies (1¢): </label>
-            <button onclick="changeCoins('penny', 1)">+</button>
-            <button onclick="changeCoins('penny', -1)">-</button>
-            <span id="penny-count">0</span>
-          </div>
-          <div style="margin-top:8px;">
-            <label>Nickels (5¢): </label>
-            <button onclick="changeCoins('nickel', 1)">+</button>
-            <button onclick="changeCoins('nickel', -1)">-</button>
-            <span id="nickel-count">0</span>
-          </div>
-          <div id="penny-total" style="margin-top:8px;">Total: 0¢</div>
-          <button onclick="checkPennyGame()" style="margin-top:8px;">Check Amount</button>
-          <div id="penny-feedback" style="margin-top:12px;"></div>
-        </div>
-      </div>
+      <!-- Kindergarten interactive games have been moved to a dedicated kindergarten page -->
 
     </div>
   </section>
