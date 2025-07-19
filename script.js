@@ -411,4 +411,229 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('roadmap-grid')) {
     generateRoadmap();
   }
+
+  // Initialise needs vs wants game if present
+  if (document.getElementById('needs-wants-game')) {
+    initNeedsWantsGame();
+  }
+  // Initialise storybook game if present
+  if (document.getElementById('storybook-game')) {
+    initStoryGame();
+  }
+  // Initialise penny game if present
+  if (document.getElementById('penny-game')) {
+    initPennyGame();
+  }
 });
+
+/* ---------------------------------------------------------------------
+ * Kindergarten interactive games
+ *
+ * These functions implement simple games to practice classifying needs and
+ * wants, exploring forces through pushes and pulls, reading comprehension
+ * via a short story, and counting coins. They award XP and badges to
+ * encourage participation.
+ */
+
+// Needs vs Wants Sorting Game
+const needsWantsItems = [
+  { name: 'Apple', correct: 'need' },
+  { name: 'Toy Car', correct: 'want' },
+  { name: 'Milk', correct: 'need' },
+  { name: 'Ice Cream', correct: 'want' },
+  { name: 'Shoes', correct: 'need' }
+];
+const nwSelections = {};
+
+function initNeedsWantsGame() {
+  const container = document.getElementById('nw-game-container');
+  if (!container) return;
+  container.innerHTML = '';
+  needsWantsItems.forEach((item, index) => {
+    const itemDiv = document.createElement('div');
+    itemDiv.style.marginBottom = '8px';
+    const label = document.createElement('span');
+    label.textContent = item.name;
+    label.style.display = 'inline-block';
+    label.style.width = '120px';
+    const needBtn = document.createElement('button');
+    needBtn.textContent = 'Need';
+    needBtn.addEventListener('click', () => selectNW(index, 'need'));
+    const wantBtn = document.createElement('button');
+    wantBtn.textContent = 'Want';
+    wantBtn.addEventListener('click', () => selectNW(index, 'want'));
+    itemDiv.appendChild(label);
+    itemDiv.appendChild(needBtn);
+    itemDiv.appendChild(wantBtn);
+    container.appendChild(itemDiv);
+  });
+}
+
+function selectNW(index, answer) {
+  nwSelections[index] = answer;
+}
+
+window.submitNeedsWants = function () {
+  let correctCount = 0;
+  needsWantsItems.forEach((item, index) => {
+    if (nwSelections[index] === item.correct) {
+      correctCount++;
+    }
+  });
+  const feedback = document.getElementById('nw-feedback');
+  if (!feedback) return;
+  feedback.textContent = `You classified ${correctCount} out of ${needsWantsItems.length} items correctly.`;
+  addXP(correctCount * 2);
+  if (correctCount === needsWantsItems.length) {
+    addBadge('Needs vs Wants Pro');
+  }
+};
+
+// Pushes & Pulls Motion Lab
+let forceExperiments = 0;
+window.applyForce = function (type) {
+  const input = document.getElementById('force-strength');
+  const output = document.getElementById('force-output');
+  if (!input || !output) return;
+  let strength = parseInt(input.value || '0', 10);
+  if (isNaN(strength) || strength < 1) strength = 1;
+  if (strength > 10) strength = 10;
+  const distance = strength * 2;
+  if (type === 'push') {
+    output.textContent = `You pushed with strength ${strength}. The object moved ${distance} units forward.`;
+  } else {
+    output.textContent = `You pulled with strength ${strength}. The object moved ${distance} units backward.`;
+  }
+  forceExperiments++;
+  addXP(2);
+  if (forceExperiments >= 3) {
+    addBadge('Force Investigator');
+  }
+};
+
+// Storybook Adventure
+const storyContent =
+  'Once upon a time, a little rabbit named Ruby lived in a forest. She loved to explore and make new friends. One day, she met a shy turtle named Max and together they found a beautiful garden.';
+const storyQuestions = [
+  {
+    text: 'Who is the main character?',
+    options: ['Ruby', 'Max', 'Bear'],
+    answer: 0
+  },
+  {
+    text: 'What did Ruby find in the story?',
+    options: ['A river', 'A garden', 'A cave'],
+    answer: 1
+  },
+  {
+    text: 'Who did Ruby meet?',
+    options: ['A turtle named Max', 'A mouse named Sam', 'A bird named Bella'],
+    answer: 0
+  }
+];
+
+function initStoryGame() {
+  const textEl = document.getElementById('story-text');
+  const questionsDiv = document.getElementById('story-questions');
+  if (!textEl || !questionsDiv) return;
+  textEl.textContent = storyContent;
+  questionsDiv.innerHTML = '';
+  storyQuestions.forEach((q, qIndex) => {
+    const qDiv = document.createElement('div');
+    qDiv.style.marginBottom = '8px';
+    const p = document.createElement('p');
+    p.textContent = q.text;
+    qDiv.appendChild(p);
+    q.options.forEach((opt, optIndex) => {
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `story-q${qIndex}`;
+      input.value = optIndex.toString();
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(opt));
+      qDiv.appendChild(label);
+      qDiv.appendChild(document.createElement('br'));
+    });
+    questionsDiv.appendChild(qDiv);
+  });
+}
+
+window.submitStoryAnswers = function () {
+  let correct = 0;
+  storyQuestions.forEach((q, qIndex) => {
+    const options = document.getElementsByName(`story-q${qIndex}`);
+    let selected = -1;
+    options.forEach((opt) => {
+      if (opt.checked) {
+        selected = parseInt(opt.value, 10);
+      }
+    });
+    if (selected === q.answer) {
+      correct++;
+    }
+  });
+  const feedback = document.getElementById('story-feedback');
+  if (!feedback) return;
+  feedback.textContent = `You answered ${correct} out of ${storyQuestions.length} questions correctly.`;
+  addXP(correct * 2);
+  if (correct === storyQuestions.length) {
+    addBadge('Story Explorer');
+  }
+};
+
+// Penny Bank Counting Game
+let pennyTarget = 10;
+let pennyCount = 0;
+let nickelCount = 0;
+
+function initPennyGame() {
+  const targetEl = document.getElementById('penny-target');
+  const totalEl = document.getElementById('penny-total');
+  if (!targetEl || !totalEl) return;
+  // Choose a random target in multiples of 5 between 5 and 20
+  const targets = [5, 10, 15, 20];
+  pennyTarget = targets[Math.floor(Math.random() * targets.length)];
+  targetEl.textContent = pennyTarget;
+  pennyCount = 0;
+  nickelCount = 0;
+  updatePennyTotal();
+}
+
+function updatePennyTotal() {
+  const totalEl = document.getElementById('penny-total');
+  const pennyCountEl = document.getElementById('penny-count');
+  const nickelCountEl = document.getElementById('nickel-count');
+  if (totalEl && pennyCountEl && nickelCountEl) {
+    const total = pennyCount * 1 + nickelCount * 5;
+    totalEl.textContent = `Total: ${total}¢`;
+    pennyCountEl.textContent = pennyCount.toString();
+    nickelCountEl.textContent = nickelCount.toString();
+  }
+}
+
+window.changeCoins = function (type, delta) {
+  if (type === 'penny') {
+    pennyCount = Math.max(0, pennyCount + delta);
+  } else {
+    nickelCount = Math.max(0, nickelCount + delta);
+  }
+  updatePennyTotal();
+};
+
+window.checkPennyGame = function () {
+  const total = pennyCount * 1 + nickelCount * 5;
+  const feedback = document.getElementById('penny-feedback');
+  if (!feedback) return;
+  if (total === pennyTarget) {
+    feedback.textContent = `Great job! You made exactly ${pennyTarget}¢.`;
+    addXP(5);
+    addBadge('Coin Counter');
+    // Restart with a new target
+    initPennyGame();
+  } else if (total < pennyTarget) {
+    feedback.textContent = `You have ${total}¢. Add ${pennyTarget - total}¢ more.`;
+  } else {
+    feedback.textContent = `You have ${total}¢. Remove ${total - pennyTarget}¢ to reach ${pennyTarget}¢.`;
+  }
+};
